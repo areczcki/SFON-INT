@@ -1,0 +1,44 @@
+{% extends 'CategoriaBundle::layout_produto.html.twig' %}
+{% block body %}
+<h1>Produto list</h1>
+
+<table class="records_list">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>Unidade</th>
+            <th>Categoria</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('produto_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.nome }}</td>
+            <td>{{ entity.unidade }}</td>
+            <td>{{ entity.categoria.nome}}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('produto_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('produto_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<ul>
+    <li>
+        <a href="{{ path('produto_new') }}">
+            Create a new entry
+        </a>
+    </li>
+</ul>
+{% endblock %}

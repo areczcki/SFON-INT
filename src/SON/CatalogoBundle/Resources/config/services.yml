@@ -1,0 +1,23 @@
+#parameters:
+#    categoria.example.class: SON\CategoriaBundle\Example
+
+#services:
+#    categoria.example:
+#        class: %categoria.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+
+
+services:
+  son_catalogo.reporting:
+    class: SON\CatalogoBundle\Reporting\CatalogoReportManager
+    arguments:
+      - "@doctrine.orm.entity_manager"
+    calls:
+      - [setLogger, ["@logger"]]
+      
+  son_catalogo.twig.catalogo_extension:
+    class: SON\CatalogoBundle\Twig\CatalogoExtension
+    arguments: []
+    tags:
+      - { name: twig.extension }
+    public: false

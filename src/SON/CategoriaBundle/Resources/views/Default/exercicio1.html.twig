@@ -1,0 +1,20 @@
+{# Exercicio módulo 1 – Criando um bundle e uma rota #}
+
+{% extends '::base.html.twig' %}
+
+{% block title 'Exercicio 1' %}
+
+{% block body %}
+
+    {% for c in categorias %}
+        <ul>
+            <li>{{ c.nomeCategoria }}</li>
+            {% for p in c.produtos %}
+                <ul>
+                    <li>{{ p.nomeProduto }}</li>
+                </ul>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+
+{% endblock %}

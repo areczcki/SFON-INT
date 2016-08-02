@@ -1,0 +1,18 @@
+catalogo:
+    resource: "@CatalogoBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+categoria:
+    resource: "@CategoriaBundle/Resources/config/routing.yml"
+    prefix:   /
+
+UserBundle:
+    resource: "@UserBundle/Controller"
+    prefix:   /
+    type:     annotation
+
+# Internal routing configuration to handle ESI
+#_internal:
+#    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
+#    prefix:   /_internal

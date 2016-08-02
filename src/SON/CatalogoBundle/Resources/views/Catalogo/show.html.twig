@@ -1,0 +1,95 @@
+{% extends 'CatalogoBundle::layout.html.twig' %}
+{% block body %}
+<h1>Catalogo</h1>
+
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td>{{ entity.name }}</td>
+        </tr>
+        <tr>
+            <th>Descricao</th>
+            <td>{{ entity.descricao }}</td>
+        </tr>
+        <tr>
+            <th>Lancamento</th>
+            <td>{{ entity.lancamento|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Imagename</th>
+            <td>{{ entity.imageName }}</td>
+        </tr>
+        <tr>
+        	<th>Curtiram</th>
+        	<td>
+				{{ entity.like|length }} curtiram!
+	        	<ul>
+					{% for like in entity.like %}
+						<li>{{ like.username }}</li>
+					{% else %}
+						<li>Ninguem curtiu!</li>
+					{% endfor %}
+	            </ul>
+				{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+					<a href="{{ path('catalogo_unlike', {'id':entity.id}) }}" class="like-toggle" {{ entity.hasLike(app.user) ? '' : 'style="display:none;"' }}>Unlike</a>
+					<a href="{{ path('catalogo_like', {'id':entity.id}) }}"  class="like-toggle" {{ entity.hasLike(app.user) ? 'style="display:none;"' : '' }}>like</a>
+				{% endif %}
+             </td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('catalogo') }}">
+            Back to the list
+        </a>
+    </li>
+    {% if app.user == entity.autor %}
+    <li>
+        <a href="{{ path('catalogo_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('catalogo_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+    {% endif %}
+</ul>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            $('.like-toggle').click(function() {
+
+                $(this).hide();
+
+                var url = $(this).attr('href') + '.json';
+                $.post(url,null, function(data) {
+                    if(data.like) {
+                        alert('Curtiu!');
+                    }
+                    else {
+                        alert('Ops! Unlike!');
+                    }
+                });
+
+                return false;
+            });
+        });
+    </script>
+
+{% endblock %}

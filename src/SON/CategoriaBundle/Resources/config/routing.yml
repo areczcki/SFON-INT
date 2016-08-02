@@ -1,0 +1,20 @@
+categoria_homepage:
+    pattern:  /categorias
+    defaults: { _controller: CategoriaBundle:Default:index }
+
+categoria_buscar_categoria_nome_produto:
+    pattern:  /categorias/{nomeCategoria}/{nomeProduto}
+    defaults: { _controller: CategoriaBundle:Default:buscarCategoriaMaisProduto }
+
+categoria_relatorio:
+    pattern:  /categoria/relatorio/categorias.csv
+    defaults: { _controller: CategoriaBundle:Relatorio:categorias }
+
+
+CategoriaBundle_categoria:
+        resource: "@CategoriaBundle/Resources/config/routing/categoria.yml"
+        prefix:   /categoria
+
+CategoriaBundle_produto:
+        resource: "@CategoriaBundle/Resources/config/routing/produto.yml"
+        prefix:   /produto

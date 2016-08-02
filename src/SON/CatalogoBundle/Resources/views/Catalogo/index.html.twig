@@ -1,0 +1,58 @@
+{% extends 'CatalogoBundle::layout.html.twig' %}
+{% block body %}
+
+{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+	<a href="{{ path('logout') }}">Logout</a>
+{% else %}
+	<a href="{{ path('login') }}">Login</a>
+{% endif %}
+
+<h1>Catalogo list</h1>
+
+<table class="records_list">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Descricao</th>
+            <th>Lancamento</th>
+            <th>Imagename</th>
+            <th>Curtiram</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('catalogo_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.name | bold | raw }}</td>
+            <td>{{ entity.descricao }}</td>
+            <td>{% if entity.lancamento %}{{ entity.lancamento|date('Y-m-d H:i:s') }}{% endif %}</td>
+            <td>{{ entity.imageName }}</td>
+            <td>{{ entity.like|length }}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('catalogo_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    {% if app.user == entity.autor %}
+                    <li>
+                        <a href="{{ path('catalogo_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% if is_granted('ROLE_ADMIN') %}
+<ul>
+    <li>
+        <a href="{{ path('catalogo_new') }}">
+            Create a new entry
+        </a>
+    </li>
+</ul>
+{% endif %}
+{% endblock %}
